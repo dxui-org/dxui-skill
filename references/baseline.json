@@ -1,0 +1,11 @@
+{
+  "commit": "4e5ee7d1324df8dc67cb987af559b76fc58a4365",
+  "dirty": false,
+  "declarations": 2806,
+  "packages": {
+    ".": 718,
+    "icon": 2069,
+    "icon/catalog": 2,
+    "internal/icondata": 17
+  }
+}

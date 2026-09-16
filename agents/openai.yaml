@@ -1,0 +1,3 @@
+interface:
+  display_name: "dxui"
+  short_description: "Build Go desktop apps with complete dxui API references"
