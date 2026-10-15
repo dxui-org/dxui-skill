@@ -117,7 +117,7 @@ type App struct {
 <a id="api-layoutcontext"></a>
 ## LayoutContext
 
-Source: `app.go:152`
+Source: `app.go:154`
 
 ```text
 LayoutContext is the logical space available to the root builder. It
@@ -132,7 +132,7 @@ type LayoutContext struct{ Width, Height float32 }
 <a id="api-newapp"></a>
 ## NewApp
 
-Source: `app.go:155`
+Source: `app.go:157`
 
 ```text
 NewApp creates an application configuration without loading SDL.
@@ -145,7 +145,7 @@ func NewApp(options AppOptions) *App
 <a id="api-app-runresponsive"></a>
 ## App.RunResponsive
 
-Source: `app.go:181`
+Source: `app.go:183`
 
 ```text
 RunResponsive is Run with a root builder that may choose a different view
@@ -160,7 +160,7 @@ func (a *App) RunResponsive(root func(LayoutContext) View) error
 <a id="api-app-run"></a>
 ## App.Run
 
-Source: `app.go:206`
+Source: `app.go:208`
 
 ```text
 Run creates the native window, builds root, and owns the process main thread
@@ -178,7 +178,7 @@ func (a *App) Run(root func() View) (runErr error)
 <a id="api-app-settheme"></a>
 ## App.SetTheme
 
-Source: `app.go:411`
+Source: `app.go:415`
 
 ```text
 SetTheme validates and copies a complete Primitive -> Semantic -> Component
@@ -194,7 +194,7 @@ func (a *App) SetTheme(source Theme) error
 <a id="api-app-setclipboardtext"></a>
 ## App.SetClipboardText
 
-Source: `app.go:499`
+Source: `app.go:503`
 
 ```text
 SetClipboardText writes UTF-8 text to the system clipboard. While Run is
@@ -209,7 +209,7 @@ func (a *App) SetClipboardText(value string) error
 <a id="api-app-close"></a>
 ## App.Close
 
-Source: `app.go:529`
+Source: `app.go:533`
 
 ```text
 Close requests application shutdown and safely wakes a blocked event wait.
@@ -224,7 +224,7 @@ func (a *App) Close()
 <a id="api-app-update"></a>
 ## App.Update
 
-Source: `app.go:548`
+Source: `app.go:552`
 
 ```text
 Update queues a state update for FIFO execution on the UI thread, then
@@ -239,7 +239,7 @@ func (a *App) Update(update func()) error
 <a id="api-app-invalidate"></a>
 ## App.Invalidate
 
-Source: `app.go:574`
+Source: `app.go:578`
 
 ```text
 Invalidate requests a rebuild of the main window only. It is safe from any
@@ -253,7 +253,7 @@ func (a *App) Invalidate() error
 <a id="api-app-diagnostics"></a>
 ## App.Diagnostics
 
-Source: `app.go:597`
+Source: `app.go:601`
 
 ```text
 Diagnostics returns a race-safe, SDL-free runtime snapshot.

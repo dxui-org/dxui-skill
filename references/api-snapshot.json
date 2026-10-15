@@ -51,7 +51,7 @@
     "File": "app.go",
     "Doc": "LayoutContext is the logical space available to the root builder. It\ncontains no backend values. A constraint-aware build runs once initially\nand once for the final resize/scale event in each drained event batch.\n",
     "Code": "type LayoutContext struct{ Width, Height float32 }",
-    "Line": 152
+    "Line": 154
   },
   {
     "Package": ".",
@@ -60,7 +60,7 @@
     "File": "app.go",
     "Doc": "NewApp creates an application configuration without loading SDL.\n",
     "Code": "func NewApp(options AppOptions) *App",
-    "Line": 155
+    "Line": 157
   },
   {
     "Package": ".",
@@ -69,7 +69,7 @@
     "File": "app.go",
     "Doc": "RunResponsive is Run with a root builder that may choose a different view\nstructure from the current logical window size. Measuring a result never\ninvokes the builder again; only a later coalesced viewport event can do so.\n",
     "Code": "func (a *App) RunResponsive(root func(LayoutContext) View) error",
-    "Line": 181
+    "Line": 183
   },
   {
     "Package": ".",
@@ -78,7 +78,7 @@
     "File": "app.go",
     "Doc": "Run creates the native window, builds root, and owns the process main thread\nuntil the app closes. Call it directly from main, before moving UI work to\nother goroutines. Run is blocking and may be called only once, including\nafter a startup or runtime error. A nil root is rejected before the App is\nconsumed. Startup, build, renderer, callback, and event-loop failures are\nreturned; OnError also observes runtime failures when configured.\n",
     "Code": "func (a *App) Run(root func() View) (runErr error)",
-    "Line": 206
+    "Line": 208
   },
   {
     "Package": ".",
@@ -87,7 +87,7 @@
     "File": "app.go",
     "Doc": "SetTheme validates and copies a complete Primitive -> Semantic -> Component\ntheme atomically. Equal themes are a no-op. A relevant metric-token change\nschedules layout; visual-only resolved changes schedule display/paint only.\nWhile Run is active, call SetTheme from a UI callback or inside Update.\n",
     "Code": "func (a *App) SetTheme(source Theme) error",
-    "Line": 411
+    "Line": 415
   },
   {
     "Package": ".",
@@ -96,7 +96,7 @@
     "File": "app.go",
     "Doc": "SetClipboardText writes UTF-8 text to the system clipboard. While Run is\nactive, call it from a UI callback or inside Update so the native operation\nremains on the UI thread. Invalid UTF-8 is normalized to replacement runes.\n",
     "Code": "func (a *App) SetClipboardText(value string) error",
-    "Line": 499
+    "Line": 503
   },
   {
     "Package": ".",
@@ -105,7 +105,7 @@
     "File": "app.go",
     "Doc": "Close requests application shutdown and safely wakes a blocked event wait.\nIt may be called from callbacks or any goroutine. Repeated calls and calls\nmade before Run are no-ops.\n",
     "Code": "func (a *App) Close()",
-    "Line": 529
+    "Line": 533
   },
   {
     "Package": ".",
@@ -114,7 +114,7 @@
     "File": "app.go",
     "Doc": "Update queues a state update for FIFO execution on the UI thread, then\nrebuilds the root once after the batch. It never executes update on the\ncaller's goroutine and is safe to call from any goroutine.\n",
     "Code": "func (a *App) Update(update func()) error",
-    "Line": 548
+    "Line": 552
   },
   {
     "Package": ".",
@@ -123,7 +123,7 @@
     "File": "app.go",
     "Doc": "Invalidate requests a rebuild of the main window only. It is safe from any\ngoroutine; child windows use Window.Invalidate.\n",
     "Code": "func (a *App) Invalidate() error",
-    "Line": 574
+    "Line": 578
   },
   {
     "Package": ".",
@@ -132,7 +132,7 @@
     "File": "app.go",
     "Doc": "Diagnostics returns a race-safe, SDL-free runtime snapshot.\n",
     "Code": "func (a *App) Diagnostics() RuntimeDiagnostics",
-    "Line": 597
+    "Line": 601
   },
   {
     "Package": ".",
@@ -4375,12 +4375,57 @@
   },
   {
     "Package": ".",
+    "Name": "Cursor",
+    "Kind": "type",
+    "File": "style.go",
+    "Doc": "Cursor selects the system pointer shown while hovering a component.\n",
+    "Code": "type Cursor uint8",
+    "Line": 179
+  },
+  {
+    "Package": ".",
+    "Name": "CursorAuto",
+    "Kind": "const",
+    "File": "style.go",
+    "Doc": "CursorAuto uses the component default: text for editors, pointer for Button,\nand the default arrow for other controls. Decorative children follow the\nenclosing control unless they explicitly select a cursor.\n",
+    "Code": "const (\n\t// CursorAuto uses the component default: text for editors, pointer for Button,\n\t// and the default arrow for other controls. Decorative children follow the\n\t// enclosing control unless they explicitly select a cursor.\n\tCursorAuto Cursor = iota\n\t// CursorDefault selects the default arrow.\n\tCursorDefault\n\t// CursorText selects the text I-beam.\n\tCursorText\n\t// CursorPointer selects the pointing hand used for clickable buttons.\n\tCursorPointer\n)",
+    "Line": 185
+  },
+  {
+    "Package": ".",
+    "Name": "CursorDefault",
+    "Kind": "const",
+    "File": "style.go",
+    "Doc": "CursorDefault selects the default arrow.\n",
+    "Code": "",
+    "Line": 187
+  },
+  {
+    "Package": ".",
+    "Name": "CursorText",
+    "Kind": "const",
+    "File": "style.go",
+    "Doc": "CursorText selects the text I-beam.\n",
+    "Code": "",
+    "Line": 189
+  },
+  {
+    "Package": ".",
+    "Name": "CursorPointer",
+    "Kind": "const",
+    "File": "style.go",
+    "Doc": "CursorPointer selects the pointing hand used for clickable buttons.\n",
+    "Code": "",
+    "Line": 191
+  },
+  {
+    "Package": ".",
     "Name": "Style",
     "Kind": "type",
     "File": "style.go",
-    "Doc": "Style contains the supported layout, paint, and typography controls. Box\nis always single-line; there is intentionally no wrap or order\nproperty. The zero value is safe and selects intrinsic sizing and theme\ndefaults.\n",
-    "Code": "type Style struct {\n\tWidth, Height       Length\n\tMinWidth, MinHeight Length\n\tMaxWidth, MaxHeight Length\n\tMargin, Padding     EdgeValues\n\tPosition            Position\n\tInsets              Insets\n\tGrow                float32\n\tShrink              Option[float32]\n\tBasis               Length\n\tAlignSelf           Option[Align]\n\tZIndex              int\n\tOverflow            Overflow\n\tBackground          ColorValue\n\tBorder              Border\n\tRadius              CornerValues\n\t// Shadow is an explicitly requested list of outer shadows. A nil value\n\t// leaves a theme/state value unchanged; a non-nil empty slice removes it.\n\tShadow     []Shadow\n\tOpacity    Option[float32]\n\tVisibility Visibility\n\tText       TextStyle\n\t// Force is applied after component and interaction-state styles. It is for\n\t// deliberate paint overrides such as suppressing a focus ring; ordinary\n\t// base appearance belongs in the fields above so Hover/Pressed/Focus remain\n\t// visible. Force cannot affect layout.\n\tForce StylePatch\n}",
-    "Line": 182
+    "Doc": "Style contains the supported layout, paint, typography, and cursor controls. Box\nis always single-line; there is intentionally no wrap or order\nproperty. The zero value is safe and selects intrinsic sizing and theme\ndefaults.\n",
+    "Code": "type Style struct {\n\tWidth, Height       Length\n\tMinWidth, MinHeight Length\n\tMaxWidth, MaxHeight Length\n\tMargin, Padding     EdgeValues\n\tPosition            Position\n\tInsets              Insets\n\tGrow                float32\n\tShrink              Option[float32]\n\tBasis               Length\n\tAlignSelf           Option[Align]\n\tZIndex              int\n\tOverflow            Overflow\n\tBackground          ColorValue\n\tBorder              Border\n\tRadius              CornerValues\n\t// Shadow is an explicitly requested list of outer shadows. A nil value\n\t// leaves a theme/state value unchanged; a non-nil empty slice removes it.\n\tShadow     []Shadow\n\tOpacity    Option[float32]\n\tVisibility Visibility\n\t// Cursor affects hover appearance only; it adds no focus or activation behavior.\n\tCursor Cursor\n\tText   TextStyle\n\t// Force is applied after component and interaction-state styles. It is for\n\t// deliberate paint overrides such as suppressing a focus ring; ordinary\n\t// base appearance belongs in the fields above so Hover/Pressed/Focus remain\n\t// visible. Force cannot affect layout.\n\tForce StylePatch\n}",
+    "Line": 198
   },
   {
     "Package": ".",
@@ -4389,7 +4434,7 @@
     "File": "style.go",
     "Doc": "Visibility controls whether a node contributes display items.\n",
     "Code": "type Visibility uint8",
-    "Line": 212
+    "Line": 230
   },
   {
     "Package": ".",
@@ -4398,7 +4443,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tVisible Visibility = iota\n\tHidden\n)",
-    "Line": 215
+    "Line": 233
   },
   {
     "Package": ".",
@@ -4407,7 +4452,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 216
+    "Line": 234
   },
   {
     "Package": ".",
@@ -4416,7 +4461,7 @@
     "File": "style.go",
     "Doc": "PointerBehavior controls pointer participation for a view subtree.\n",
     "Code": "type PointerBehavior uint8",
-    "Line": 220
+    "Line": 238
   },
   {
     "Package": ".",
@@ -4425,7 +4470,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tPointerAuto PointerBehavior = iota\n\t// PointerNone excludes the view and all descendants. It is intended for\n\t// decorative overlays that must not intercept content below them.\n\tPointerNone\n)",
-    "Line": 223
+    "Line": 241
   },
   {
     "Package": ".",
@@ -4434,7 +4479,7 @@
     "File": "style.go",
     "Doc": "PointerNone excludes the view and all descendants. It is intended for\ndecorative overlays that must not intercept content below them.\n",
     "Code": "",
-    "Line": 226
+    "Line": 244
   },
   {
     "Package": ".",
@@ -4443,7 +4488,7 @@
     "File": "style.go",
     "Doc": "BorderPattern selects how a border is painted. The zero value is solid.\n",
     "Code": "type BorderPattern uint8",
-    "Line": 230
+    "Line": 248
   },
   {
     "Package": ".",
@@ -4452,7 +4497,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tBorderSolid BorderPattern = iota\n\tBorderDashed\n)",
-    "Line": 233
+    "Line": 251
   },
   {
     "Package": ".",
@@ -4461,7 +4506,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 234
+    "Line": 252
   },
   {
     "Package": ".",
@@ -4470,7 +4515,7 @@
     "File": "style.go",
     "Doc": "BorderSides selects edges. Zero means all edges, not an absent border.\n",
     "Code": "type BorderSides uint8",
-    "Line": 238
+    "Line": 256
   },
   {
     "Package": ".",
@@ -4479,7 +4524,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tBorderTop BorderSides = 1 << iota\n\tBorderRight\n\tBorderBottom\n\tBorderLeft\n\tBorderAll = BorderTop | BorderRight | BorderBottom | BorderLeft\n)",
-    "Line": 241
+    "Line": 259
   },
   {
     "Package": ".",
@@ -4488,7 +4533,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 242
+    "Line": 260
   },
   {
     "Package": ".",
@@ -4497,7 +4542,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 243
+    "Line": 261
   },
   {
     "Package": ".",
@@ -4506,7 +4551,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 244
+    "Line": 262
   },
   {
     "Package": ".",
@@ -4515,7 +4560,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 245
+    "Line": 263
   },
   {
     "Package": ".",
@@ -4524,7 +4569,7 @@
     "File": "style.go",
     "Doc": "Border is a paint-only border drawn inside a view's layout bounds.\nEach side owns the nearest half of its two adjacent corner arcs.\n",
     "Code": "type Border struct {\n\tWidth   MetricValue\n\tColor   ColorValue\n\tPattern BorderPattern\n\t// Sides defaults to all edges. In Style, a Width/Color assignment resets\n\t// Sides too; otherwise nonzero Sides changes only edge selection.\n\t// StylePatch.Border replaces the complete Border.\n\tSides BorderSides\n}",
-    "Line": 250
+    "Line": 268
   },
   {
     "Package": ".",
@@ -4533,7 +4578,7 @@
     "File": "style.go",
     "Doc": "NoBorder explicitly clears the border width. In ordinary Style, later state\npatches may restore a border; Style.Force is applied after those patches.\n",
     "Code": "func NoBorder() Border",
-    "Line": 262
+    "Line": 280
   },
   {
     "Package": ".",
@@ -4542,7 +4587,7 @@
     "File": "style.go",
     "Doc": "Stroke creates a solid border with a literal logical-unit width.\n",
     "Code": "func Stroke(width float32, color ColorValue) Border",
-    "Line": 265
+    "Line": 283
   },
   {
     "Package": ".",
@@ -4551,7 +4596,7 @@
     "File": "style.go",
     "Doc": "Shadow is an outer paint-only shadow. MVP shadows support finite,\nnon-negative blur/spread and are rendered by a bounded approximation.\n",
     "Code": "type Shadow struct {\n\tOffsetX, OffsetY MetricValue\n\tBlur, Spread     MetricValue\n\tColor            ColorValue\n}",
-    "Line": 271
+    "Line": 289
   },
   {
     "Package": ".",
@@ -4560,7 +4605,7 @@
     "File": "style.go",
     "Doc": "FontWeight selects the nearest registered face weight in a family.\n",
     "Code": "type FontWeight uint16",
-    "Line": 278
+    "Line": 296
   },
   {
     "Package": ".",
@@ -4569,7 +4614,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tWeightRegular FontWeight = 400\n\tWeightMedium  FontWeight = 500\n\tWeightBold    FontWeight = 700\n)",
-    "Line": 281
+    "Line": 299
   },
   {
     "Package": ".",
@@ -4578,7 +4623,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 282
+    "Line": 300
   },
   {
     "Package": ".",
@@ -4587,7 +4632,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 283
+    "Line": 301
   },
   {
     "Package": ".",
@@ -4596,7 +4641,7 @@
     "File": "style.go",
     "Doc": "FontSlant selects a registered normal or italic face.\n",
     "Code": "type FontSlant uint8",
-    "Line": 287
+    "Line": 305
   },
   {
     "Package": ".",
@@ -4605,7 +4650,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tSlantNormal FontSlant = iota\n\tSlantItalic\n)",
-    "Line": 290
+    "Line": 308
   },
   {
     "Package": ".",
@@ -4614,7 +4659,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 291
+    "Line": 309
   },
   {
     "Package": ".",
@@ -4623,7 +4668,7 @@
     "File": "style.go",
     "Doc": "TextAlign is horizontal alignment within a Text node's content box.\n",
     "Code": "type TextAlign uint8",
-    "Line": 295
+    "Line": 313
   },
   {
     "Package": ".",
@@ -4632,7 +4677,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "const (\n\tTextStart TextAlign = iota\n\tTextCenter\n\tTextEnd\n)",
-    "Line": 298
+    "Line": 316
   },
   {
     "Package": ".",
@@ -4641,7 +4686,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 299
+    "Line": 317
   },
   {
     "Package": ".",
@@ -4650,7 +4695,7 @@
     "File": "style.go",
     "Doc": "",
     "Code": "",
-    "Line": 300
+    "Line": 318
   },
   {
     "Package": ".",
@@ -4659,7 +4704,7 @@
     "File": "style.go",
     "Doc": "TextStyle contains the simple-LTR/CJK MVP text inputs. Families are tried in\norder before the App default and built-in Latin fallback. Size is a font\nsize in logical units; zero uses the current theme's default. LineHeight is\na logical-unit line height; zero uses the current theme's default.\nArabic/Indic shaping, bidi/RTL, color emoji, and vertical text are not\nsupported by this API.\n",
     "Code": "type TextStyle struct {\n\tFamilies   []FontFamily\n\tSize       float32\n\tLineHeight float32\n\tWeight     FontWeight\n\tSlant      FontSlant\n\tColor      ColorValue\n\tAlign      TextAlign\n}",
-    "Line": 309
+    "Line": 327
   },
   {
     "Package": ".",
@@ -4668,7 +4713,7 @@
     "File": "style.go",
     "Doc": "ComponentToken names a component-level theme entry.\n",
     "Code": "type ComponentToken string",
-    "Line": 320
+    "Line": 338
   },
   {
     "Package": ".",
@@ -4677,7 +4722,7 @@
     "File": "style.go",
     "Doc": "PrimitiveTokens are the literal foundation of a theme.\n",
     "Code": "type PrimitiveTokens struct {\n\tColors  map[ColorToken]RGBAColor\n\tMetrics map[MetricToken]float32\n}",
-    "Line": 323
+    "Line": 341
   },
   {
     "Package": ".",
@@ -4686,7 +4731,7 @@
     "File": "style.go",
     "Doc": "SemanticTokens map product meaning onto primitive or earlier semantic\ntokens. A literal ColorValue/MetricValue is also accepted.\n",
     "Code": "type SemanticTokens struct {\n\tColors  map[ColorToken]ColorValue\n\tMetrics map[MetricToken]MetricValue\n}",
-    "Line": 330
+    "Line": 348
   },
   {
     "Package": ".",
@@ -4695,7 +4740,7 @@
     "File": "style.go",
     "Doc": "StylePatch is an explicitly optional paint-only override. State styles are\nintentionally paint-only in MVP, so interaction never moves layout.\n",
     "Code": "type StylePatch struct {\n\tBackground Option[ColorValue]\n\tBorder     Option[Border]\n\tRadius     Option[CornerValues]\n\tShadow     Option[[]Shadow]\n\tOpacity    Option[float32]\n\tVisibility Option[Visibility]\n\tTextColor  Option[ColorValue]\n}",
-    "Line": 337
+    "Line": 355
   },
   {
     "Package": ".",
@@ -4704,7 +4749,7 @@
     "File": "style.go",
     "Doc": "StateStyles contains the deterministic MVP visual-state cascade.\n",
     "Code": "type StateStyles struct {\n\tDefault  StylePatch\n\tHover    StylePatch\n\tFocus    StylePatch\n\tDisabled StylePatch\n\tPressed  StylePatch\n\tChecked  StylePatch\n}",
-    "Line": 348
+    "Line": 366
   },
   {
     "Package": ".",
@@ -4713,7 +4758,7 @@
     "File": "style.go",
     "Doc": "ComponentTheme supplies semantic-token-backed defaults for one component.\n",
     "Code": "type ComponentTheme struct {\n\tBase   StylePatch\n\tStates StateStyles\n}",
-    "Line": 358
+    "Line": 376
   },
   {
     "Package": ".",
@@ -4722,7 +4767,7 @@
     "File": "style.go",
     "Doc": "Theme is the public, type-safe Primitive -> Semantic -> Component token\nstructure. SetTheme validates and copies every map and slice atomically.\n",
     "Code": "type Theme struct {\n\tPrimitive  PrimitiveTokens\n\tSemantic   SemanticTokens\n\tComponents map[ComponentToken]ComponentTheme\n}",
-    "Line": 365
+    "Line": 383
   },
   {
     "Package": ".",
@@ -4731,7 +4776,7 @@
     "File": "style.go",
     "Doc": "Direction selects Box's main axis. Vertical is the zero value.\n",
     "Code": "type Direction uint8",
-    "Line": 384
+    "Line": 402
   },
   {
     "Package": ".",
@@ -4740,7 +4785,7 @@
     "File": "style.go",
     "Doc": "Vertical lays out Box children from top to bottom and is the zero value.\n",
     "Code": "const (\n\t// Vertical lays out Box children from top to bottom and is the zero value.\n\tVertical Direction = iota\n\t// Horizontal lays out Box children from left to right.\n\tHorizontal\n)",
-    "Line": 388
+    "Line": 406
   },
   {
     "Package": ".",
@@ -4749,7 +4794,7 @@
     "File": "style.go",
     "Doc": "Horizontal lays out Box children from left to right.\n",
     "Code": "",
-    "Line": 390
+    "Line": 408
   },
   {
     "Package": ".",
@@ -4758,7 +4803,7 @@
     "File": "style.go",
     "Doc": "BoxProps configures a Box. Gap is a fixed logical-unit spacing; zero means\nno spacing between children.\n",
     "Code": "type BoxProps struct {\n\tKey     string\n\tStyle   Style\n\tToken   ComponentToken\n\tStates  StateStyles\n\tPointer PointerBehavior\n\n\tDirection Direction\n\tGap       float32\n\tJustify   Justify\n\tAlign     Align\n}",
-    "Line": 395
+    "Line": 413
   },
   {
     "Package": ".",

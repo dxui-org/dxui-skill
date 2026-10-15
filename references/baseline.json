@@ -1,9 +1,9 @@
 {
-  "commit": "4e5ee7d1324df8dc67cb987af559b76fc58a4365",
+  "commit": "ea1f823e878aa737c6c7c7d48231679bb0bb01fd",
   "dirty": false,
-  "declarations": 2806,
+  "declarations": 2811,
   "packages": {
-    ".": 718,
+    ".": 723,
     "icon": 2069,
     "icon/catalog": 2,
     "internal/icondata": 17

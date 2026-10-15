@@ -516,13 +516,85 @@ Source: `style.go:175`
 
 See the preceding constant block for the exact value and type.
 
+<a id="api-cursor"></a>
+## Cursor
+
+Source: `style.go:179`
+
+```text
+Cursor selects the system pointer shown while hovering a component.
+```
+
+```go
+type Cursor uint8
+```
+
+<a id="api-cursorauto"></a>
+## CursorAuto
+
+Source: `style.go:185`
+
+```text
+CursorAuto uses the component default: text for editors, pointer for Button,
+and the default arrow for other controls. Decorative children follow the
+enclosing control unless they explicitly select a cursor.
+```
+
+```go
+const (
+	// CursorAuto uses the component default: text for editors, pointer for Button,
+	// and the default arrow for other controls. Decorative children follow the
+	// enclosing control unless they explicitly select a cursor.
+	CursorAuto Cursor = iota
+	// CursorDefault selects the default arrow.
+	CursorDefault
+	// CursorText selects the text I-beam.
+	CursorText
+	// CursorPointer selects the pointing hand used for clickable buttons.
+	CursorPointer
+)
+```
+
+<a id="api-cursordefault"></a>
+## CursorDefault
+
+Source: `style.go:187`
+
+```text
+CursorDefault selects the default arrow.
+```
+
+See the preceding constant block for the exact value and type.
+
+<a id="api-cursortext"></a>
+## CursorText
+
+Source: `style.go:189`
+
+```text
+CursorText selects the text I-beam.
+```
+
+See the preceding constant block for the exact value and type.
+
+<a id="api-cursorpointer"></a>
+## CursorPointer
+
+Source: `style.go:191`
+
+```text
+CursorPointer selects the pointing hand used for clickable buttons.
+```
+
+See the preceding constant block for the exact value and type.
+
 <a id="api-style"></a>
 ## Style
 
-Source: `style.go:182`
+Source: `style.go:198`
 
 ```text
-Style contains the supported layout, paint, and typography controls. Box
+Style contains the supported layout, paint, typography, and cursor controls. Box
 is always single-line; there is intentionally no wrap or order
 property. The zero value is safe and selects intrinsic sizing and theme
 defaults.
@@ -550,7 +622,9 @@ type Style struct {
 	Shadow     []Shadow
 	Opacity    Option[float32]
 	Visibility Visibility
-	Text       TextStyle
+	// Cursor affects hover appearance only; it adds no focus or activation behavior.
+	Cursor Cursor
+	Text   TextStyle
 	// Force is applied after component and interaction-state styles. It is for
 	// deliberate paint overrides such as suppressing a focus ring; ordinary
 	// base appearance belongs in the fields above so Hover/Pressed/Focus remain
@@ -562,7 +636,7 @@ type Style struct {
 <a id="api-visibility"></a>
 ## Visibility
 
-Source: `style.go:212`
+Source: `style.go:230`
 
 ```text
 Visibility controls whether a node contributes display items.
@@ -575,7 +649,7 @@ type Visibility uint8
 <a id="api-visible"></a>
 ## Visible
 
-Source: `style.go:215`
+Source: `style.go:233`
 
 ```go
 const (
@@ -587,14 +661,14 @@ const (
 <a id="api-hidden"></a>
 ## Hidden
 
-Source: `style.go:216`
+Source: `style.go:234`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-pointerbehavior"></a>
 ## PointerBehavior
 
-Source: `style.go:220`
+Source: `style.go:238`
 
 ```text
 PointerBehavior controls pointer participation for a view subtree.
@@ -607,7 +681,7 @@ type PointerBehavior uint8
 <a id="api-pointerauto"></a>
 ## PointerAuto
 
-Source: `style.go:223`
+Source: `style.go:241`
 
 ```go
 const (
@@ -621,7 +695,7 @@ const (
 <a id="api-pointernone"></a>
 ## PointerNone
 
-Source: `style.go:226`
+Source: `style.go:244`
 
 ```text
 PointerNone excludes the view and all descendants. It is intended for
@@ -633,7 +707,7 @@ See the preceding constant block for the exact value and type.
 <a id="api-borderpattern"></a>
 ## BorderPattern
 
-Source: `style.go:230`
+Source: `style.go:248`
 
 ```text
 BorderPattern selects how a border is painted. The zero value is solid.
@@ -646,7 +720,7 @@ type BorderPattern uint8
 <a id="api-bordersolid"></a>
 ## BorderSolid
 
-Source: `style.go:233`
+Source: `style.go:251`
 
 ```go
 const (
@@ -658,14 +732,14 @@ const (
 <a id="api-borderdashed"></a>
 ## BorderDashed
 
-Source: `style.go:234`
+Source: `style.go:252`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-bordersides"></a>
 ## BorderSides
 
-Source: `style.go:238`
+Source: `style.go:256`
 
 ```text
 BorderSides selects edges. Zero means all edges, not an absent border.
@@ -678,7 +752,7 @@ type BorderSides uint8
 <a id="api-bordertop"></a>
 ## BorderTop
 
-Source: `style.go:241`
+Source: `style.go:259`
 
 ```go
 const (
@@ -693,35 +767,35 @@ const (
 <a id="api-borderright"></a>
 ## BorderRight
 
-Source: `style.go:242`
+Source: `style.go:260`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-borderbottom"></a>
 ## BorderBottom
 
-Source: `style.go:243`
+Source: `style.go:261`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-borderleft"></a>
 ## BorderLeft
 
-Source: `style.go:244`
+Source: `style.go:262`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-borderall"></a>
 ## BorderAll
 
-Source: `style.go:245`
+Source: `style.go:263`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-border"></a>
 ## Border
 
-Source: `style.go:250`
+Source: `style.go:268`
 
 ```text
 Border is a paint-only border drawn inside a view's layout bounds.
@@ -743,7 +817,7 @@ type Border struct {
 <a id="api-noborder"></a>
 ## NoBorder
 
-Source: `style.go:262`
+Source: `style.go:280`
 
 ```text
 NoBorder explicitly clears the border width. In ordinary Style, later state
@@ -757,7 +831,7 @@ func NoBorder() Border
 <a id="api-stroke"></a>
 ## Stroke
 
-Source: `style.go:265`
+Source: `style.go:283`
 
 ```text
 Stroke creates a solid border with a literal logical-unit width.
@@ -770,7 +844,7 @@ func Stroke(width float32, color ColorValue) Border
 <a id="api-shadow"></a>
 ## Shadow
 
-Source: `style.go:271`
+Source: `style.go:289`
 
 ```text
 Shadow is an outer paint-only shadow. MVP shadows support finite,
@@ -788,7 +862,7 @@ type Shadow struct {
 <a id="api-fontweight"></a>
 ## FontWeight
 
-Source: `style.go:278`
+Source: `style.go:296`
 
 ```text
 FontWeight selects the nearest registered face weight in a family.
@@ -801,7 +875,7 @@ type FontWeight uint16
 <a id="api-weightregular"></a>
 ## WeightRegular
 
-Source: `style.go:281`
+Source: `style.go:299`
 
 ```go
 const (
@@ -814,21 +888,21 @@ const (
 <a id="api-weightmedium"></a>
 ## WeightMedium
 
-Source: `style.go:282`
+Source: `style.go:300`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-weightbold"></a>
 ## WeightBold
 
-Source: `style.go:283`
+Source: `style.go:301`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-fontslant"></a>
 ## FontSlant
 
-Source: `style.go:287`
+Source: `style.go:305`
 
 ```text
 FontSlant selects a registered normal or italic face.
@@ -841,7 +915,7 @@ type FontSlant uint8
 <a id="api-slantnormal"></a>
 ## SlantNormal
 
-Source: `style.go:290`
+Source: `style.go:308`
 
 ```go
 const (
@@ -853,14 +927,14 @@ const (
 <a id="api-slantitalic"></a>
 ## SlantItalic
 
-Source: `style.go:291`
+Source: `style.go:309`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-textalign"></a>
 ## TextAlign
 
-Source: `style.go:295`
+Source: `style.go:313`
 
 ```text
 TextAlign is horizontal alignment within a Text node's content box.
@@ -873,7 +947,7 @@ type TextAlign uint8
 <a id="api-textstart"></a>
 ## TextStart
 
-Source: `style.go:298`
+Source: `style.go:316`
 
 ```go
 const (
@@ -886,21 +960,21 @@ const (
 <a id="api-textcenter"></a>
 ## TextCenter
 
-Source: `style.go:299`
+Source: `style.go:317`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-textend"></a>
 ## TextEnd
 
-Source: `style.go:300`
+Source: `style.go:318`
 
 See the preceding constant block for the exact value and type.
 
 <a id="api-textstyle"></a>
 ## TextStyle
 
-Source: `style.go:309`
+Source: `style.go:327`
 
 ```text
 TextStyle contains the simple-LTR/CJK MVP text inputs. Families are tried in
@@ -926,7 +1000,7 @@ type TextStyle struct {
 <a id="api-componenttoken"></a>
 ## ComponentToken
 
-Source: `style.go:320`
+Source: `style.go:338`
 
 ```text
 ComponentToken names a component-level theme entry.
@@ -939,7 +1013,7 @@ type ComponentToken string
 <a id="api-primitivetokens"></a>
 ## PrimitiveTokens
 
-Source: `style.go:323`
+Source: `style.go:341`
 
 ```text
 PrimitiveTokens are the literal foundation of a theme.
@@ -955,7 +1029,7 @@ type PrimitiveTokens struct {
 <a id="api-semantictokens"></a>
 ## SemanticTokens
 
-Source: `style.go:330`
+Source: `style.go:348`
 
 ```text
 SemanticTokens map product meaning onto primitive or earlier semantic
@@ -972,7 +1046,7 @@ type SemanticTokens struct {
 <a id="api-stylepatch"></a>
 ## StylePatch
 
-Source: `style.go:337`
+Source: `style.go:355`
 
 ```text
 StylePatch is an explicitly optional paint-only override. State styles are
@@ -994,7 +1068,7 @@ type StylePatch struct {
 <a id="api-statestyles"></a>
 ## StateStyles
 
-Source: `style.go:348`
+Source: `style.go:366`
 
 ```text
 StateStyles contains the deterministic MVP visual-state cascade.
@@ -1014,7 +1088,7 @@ type StateStyles struct {
 <a id="api-componenttheme"></a>
 ## ComponentTheme
 
-Source: `style.go:358`
+Source: `style.go:376`
 
 ```text
 ComponentTheme supplies semantic-token-backed defaults for one component.
@@ -1030,7 +1104,7 @@ type ComponentTheme struct {
 <a id="api-theme"></a>
 ## Theme
 
-Source: `style.go:365`
+Source: `style.go:383`
 
 ```text
 Theme is the public, type-safe Primitive -> Semantic -> Component token
@@ -1048,7 +1122,7 @@ type Theme struct {
 <a id="api-direction"></a>
 ## Direction
 
-Source: `style.go:384`
+Source: `style.go:402`
 
 ```text
 Direction selects Box's main axis. Vertical is the zero value.
@@ -1061,7 +1135,7 @@ type Direction uint8
 <a id="api-vertical"></a>
 ## Vertical
 
-Source: `style.go:388`
+Source: `style.go:406`
 
 ```text
 Vertical lays out Box children from top to bottom and is the zero value.
@@ -1079,7 +1153,7 @@ const (
 <a id="api-horizontal"></a>
 ## Horizontal
 
-Source: `style.go:390`
+Source: `style.go:408`
 
 ```text
 Horizontal lays out Box children from left to right.
@@ -1090,7 +1164,7 @@ See the preceding constant block for the exact value and type.
 <a id="api-boxprops"></a>
 ## BoxProps
 
-Source: `style.go:395`
+Source: `style.go:413`
 
 ```text
 BoxProps configures a Box. Gap is a fixed logical-unit spacing; zero means
